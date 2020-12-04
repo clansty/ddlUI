@@ -1,16 +1,10 @@
 <template>
-    <el-container>
-        <el-main>
-            <h1 id="err">
-                Unauthorized
-            </h1>
-        </el-main>
-    </el-container>
+  <h1 id="err">Unauthorized</h1>
 </template>
 
-<style>
+<style scoped>
 #err {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -18,9 +12,3 @@
   margin-top: 60px;
 }
 </style>
-
-<script>
-export default {
-  name: 'Unauthorized',
-}
-</script>

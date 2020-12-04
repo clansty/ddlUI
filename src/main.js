@@ -5,7 +5,6 @@ import router from './router'
 import './plugins/element.js'
 
 Vue.config.productionTip = false
-Vue.prototype.GLOBAL={}
 
 new Vue({
   router,

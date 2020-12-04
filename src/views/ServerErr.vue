@@ -1,5 +1,5 @@
 <template>
-  <h1 id="err">Not Found</h1>
+  <h1 id="err">Server Error</h1>
 </template>
 
 <style scoped>
