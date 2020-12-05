@@ -10,51 +10,76 @@ import Info from '@/views/Info'
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    redirect: { name: 'unauthorized' }
-  },
-  {
-    path: '/unauthorized',
-    name: "unauthorized",
-    component: Unauthorized
-  },
-  {
-    path: '/servererr',
-    name: "servererr",
-    component: ServerErr
-  },
-  {
-    path: '/u/:token',
-    component: Home,
-    children: [
-      {
-        path: '',
-        redirect: { name: 'tasks' }
-      },
-      {
-        path: 'tasks',
-        name: 'tasks',
-        component: Tasks
-      },
-      {
-        path: 'info',
-        name: 'info',
-        component: Info
-      },
-      {
+    {
+        path: '/',
+        redirect: { name: 'unauthorized' }
+    },
+    {
+        path: '/unauthorized',
+        name: "unauthorized",
+        component: Unauthorized, 
+        meta: {
+            title: "401 Unauthorized"
+        }
+    },
+    {
+        path: '/servererr',
+        name: "servererr",
+        component: ServerErr, 
+        meta: {
+            title: "Server Error"
+        }
+    },
+    {
+        path: '/u/:token',
+        component: Home,
+        children: [
+            {
+                path: '',
+                redirect: { name: 'tasks' }
+            },
+            {
+                path: 'tasks',
+                name: 'tasks',
+                component: Tasks, 
+                meta: {
+                    title: "Tasks"
+                }
+            },
+            {
+                path: 'info',
+                name: 'info',
+                component: Info,
+                meta: {
+                    title: "System Info"
+                }
+            },
+            {
+                path: '*',
+                component: NotFound,
+                meta: {
+                    title: "404 Not Found"
+                }
+            },
+        ]
+    },
+    {
         path: '*',
-        component: NotFound
-      },
-    ]
-  },
-  {
-    path: '*',
-    component: NotFound
-  }]
+        component: NotFound,
+        meta: {
+            title: "404 Not Found"
+        }
+    }]
 
 const router = new VueRouter({
-  routes
+    routes
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.title) {
+        document.title = to.meta.title
+    }
+    next()
 })
 
 export default router
