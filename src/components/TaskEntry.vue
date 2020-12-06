@@ -20,7 +20,7 @@
                 v-if="done"
             ></FontAwesomeIcon>
         </div>
-        <router-link to="">
+        <router-link :to="{ name: 'task', params: { id }}">
             <div class="body">
                 <span class="title" v-bind:class="{ del: done }">
                     {{ name }}

@@ -21,7 +21,6 @@
             Menu,
         },
         created() {
-            const vue = this
             this.axios.defaults.headers.common["x-auth"] = window.token;
             this.axios
                 .get("/api/user/me")

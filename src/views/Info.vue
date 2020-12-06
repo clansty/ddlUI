@@ -10,11 +10,10 @@
 </template>
 
 <script>
-
     export default {
         data() {
             return {
-                uid: window.uid,
+                uid: "",
                 token: window.token,
                 apiver: "",
                 frontVer: process.env.VUE_APP_VERSION
@@ -24,6 +23,13 @@
             this.axios.get("/api/system")
                 .then((response) => {
                     this.apiver = response.data.version;
+                }).catch(error => {
+                    this.$router.push({ name: "servererr" });
+                })
+            this.axios
+                .get("/api/user/me")
+                .then((response) => {
+                    this.uid = response.data.uid
                 }).catch(error => {
                     if (error.response && error.response.status == 401) {
                         this.$router.push({ name: "unauthorized" });

@@ -6,6 +6,7 @@ import NotFound from '@/views/NotFound'
 import ServerErr from '@/views/ServerErr'
 import Tasks from '@/views/Tasks'
 import Info from '@/views/Info'
+import TaskView from '@/views/TaskView'
 
 Vue.use(VueRouter)
 
@@ -47,6 +48,14 @@ const routes = [
                 }
             },
             {
+                path: 'task/:id',
+                name: 'task',
+                component: TaskView, 
+                meta: {
+                    title: "Task View"
+                }
+            },
+            {
                 path: 'info',
                 name: 'info',
                 component: Info,
@@ -57,6 +66,7 @@ const routes = [
             {
                 path: '*',
                 component: NotFound,
+                name: "notFound",
                 meta: {
                     title: "404 Not Found"
                 }
