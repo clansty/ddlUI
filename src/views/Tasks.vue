@@ -56,30 +56,41 @@
                     }
                 });
                 this.tasks.sort(compareByDate)
+                this.tasks.sort(compareByDone)
                 return this.tasks
             }
         },
         methods: {
             openDrawer() {
                 this.add.opened = true
+            },
+            update() {
+                this.axios.get("/api/all")
+                    .then((response) => {
+                        this.tasks = response.data;
+                    }).catch(error => {
+                        if (error.response && error.response.status == 401) {
+                            this.$router.push({ name: "unauthorized" });
+                        }
+                        else {
+                            this.$router.push({ name: "servererr" });
+                        }
+                    })
             }
         },
         created() {
-            this.axios.get("/api/all")
-                .then((response) => {
-                    this.tasks = response.data;
-                }).catch(error => {
-                    if (error.response && error.response.status == 401) {
-                        this.$router.push({ name: "unauthorized" });
-                    }
-                    else {
-                        this.$router.push({ name: "servererr" });
-                    }
-                })
+            this.update()
         },
+        watch: {
+            add: {
+                deep: true,
+                handler(val, oldVal) {
+                    this.update()
+                }
+            }
+        }
     };
     function compareByDate(a, b) {
-        console.log("sort")
         if (!a.due && !b.due)
             return 0
         if (a.due && !b.due)
@@ -88,7 +99,13 @@
             return 1
         const dateStart = new Date(a.due)
         const dateEnd = new Date(b.due)
-        console.log(dateStart - dateEnd)
         return dateStart - dateEnd
+    }
+    function compareByDone(a, b) {
+        if (a.done && !b.done)
+            return 1
+        if (b.done && !a.done)
+            return -1
+        return 0
     }
 </script>
