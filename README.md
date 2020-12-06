@@ -6,9 +6,8 @@
 
 ## Todos
 
-[ ] Show tasks on calendar view
-
-[ ] Classify tasks by subject
+- [ ] Show tasks on calendar view
+- [ ] Classify tasks by subject
 
 ## Project setup
 ```
