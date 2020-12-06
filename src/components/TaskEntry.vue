@@ -126,7 +126,8 @@
                 const day = now.getDate();
                 const dateStart = new Date(`${year}-${month}-${day}`)
                 const dateEnd = new Date(this.due);
-                const difValue = (dateEnd - dateStart) / (1000 * 60 * 60 * 24);
+                const difValue = Math.round((dateEnd - dateStart) / (1000 * 60 * 60 * 24));
+                console.log(difValue)
                 if (difValue == 0) {
                     this.duex = 'Today'
                     this.near = true

@@ -26,8 +26,8 @@
         margin-bottom: 10px;
     }
     .floatbtns {
-        right: 60px;
-        bottom: 60px;
+        right: 40px;
+        bottom: 40px;
         position: fixed;
     }
 </style>
