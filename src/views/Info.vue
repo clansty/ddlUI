@@ -5,16 +5,19 @@
         <p>User token: {{ token }}</p>
         <h3>System Info</h3>
         <p>Backend version: {{ apiver }}</p>
+        <p>Frontend version: {{ frontVer }}</p>
     </div>
 </template>
 
 <script>
+
     export default {
         data() {
             return {
                 uid: window.uid,
                 token: window.token,
                 apiver: "",
+                frontVer: process.env.VUE_APP_VERSION
             };
         },
         created() {
@@ -25,7 +28,7 @@
                     if (error.response && error.response.status == 401) {
                         this.$router.push({ name: "unauthorized" });
                     }
-                    else{
+                    else {
                         this.$router.push({ name: "servererr" });
                     }
                 })
