@@ -5,8 +5,19 @@
             :key="task.id"
             :name="task.name"
             :due="task.due"
+            :id="task.id"
+            :done="task.done"
             class="entry"
         ></TaskEntry>
+        <AddTask v-bind:opened="add"></AddTask>
+        <div class="floatbtns">
+            <el-button
+                type="primary"
+                icon="el-icon-plus"
+                circle
+                @click="openDrawer"
+            ></el-button>
+        </div>
     </div>
 </template>
 
@@ -14,17 +25,27 @@
     .entry {
         margin-bottom: 10px;
     }
+    .floatbtns {
+        right: 60px;
+        bottom: 60px;
+        position: fixed;
+    }
 </style>
 
 <script>
     import TaskEntry from '@/components/TaskEntry'
+    import AddTask from '../components/AddTask.vue';
     export default {
         components: {
-            TaskEntry
+            TaskEntry,
+            AddTask
         },
         data() {
             return {
-                tasks: []
+                tasks: [],
+                add: {// here created a object because Tasks should share the same instance of data Opened with AddTask
+                    opened: false
+                }
             };
         },
         computed: {
@@ -36,6 +57,11 @@
                 });
                 this.tasks.sort(compareByDate)
                 return this.tasks
+            }
+        },
+        methods: {
+            openDrawer() {
+                this.add.opened = true
             }
         },
         created() {
@@ -53,8 +79,16 @@
         },
     };
     function compareByDate(a, b) {
-        const dateStart = new Date(a)
-        const dateEnd = new Date(b)
+        console.log("sort")
+        if (!a.due && !b.due)
+            return 0
+        if (a.due && !b.due)
+            return -1
+        if (b.due && !a.due)
+            return 1
+        const dateStart = new Date(a.due)
+        const dateEnd = new Date(b.due)
+        console.log(dateStart - dateEnd)
         return dateStart - dateEnd
     }
 </script>

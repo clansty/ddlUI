@@ -28,6 +28,7 @@
                 <div
                     class="detail"
                     v-bind:class="{ missed, near, later, del: done }"
+                    v-if="due"
                 >
                     <FontAwesomeIcon
                         :icon="['fal', 'calendar-alt']"
@@ -111,45 +112,62 @@
         },
         data() {
             return {
-                duex: 0,
+                duex: "",
                 near: false,
                 later: false,
                 missed: false
             }
         },
         created() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth() + 1;
-            const day = now.getDate();
-            const dateStart = new Date(`${year}-${month}-${day}`)
-            const dateEnd = new Date(this.due);
-            const difValue = (dateEnd - dateStart) / (1000 * 60 * 60 * 24);
-            if (difValue == 0) {
-                this.duex = 'Today'
-                this.near = true
-            }
-            else if (difValue == 1) {
-                this.duex = 'Tomorrow'
-                this.near = true
-            }
-            else if (difValue < 0) {
-                this.duex = this.due
-                this.missed = true
-            } else {
-                this.duex = this.due
-                this.later = true
+            if (this.due) {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = now.getMonth() + 1;
+                const day = now.getDate();
+                const dateStart = new Date(`${year}-${month}-${day}`)
+                const dateEnd = new Date(this.due);
+                const difValue = (dateEnd - dateStart) / (1000 * 60 * 60 * 24);
+                if (difValue == 0) {
+                    this.duex = 'Today'
+                    this.near = true
+                }
+                else if (difValue == 1) {
+                    this.duex = 'Tomorrow'
+                    this.near = true
+                }
+                else if (difValue < 0) {
+                    this.duex = this.due
+                    this.missed = true
+                } else {
+                    this.duex = this.due
+                    this.later = true
+                }
             }
         },
         props: {
             name: String,
-            key: String,
+            id: String,
             due: String,
             done: Boolean
         },
         methods: {
             setDone() {
                 this.done = !this.done
+                this.axios.post('/api/status/' + this.id, {
+                    status: this.done
+                }).then((response) => {
+                    if (response.body.code != 200) {
+                        this.$alert('Responce code: ' + response.body.code, 'Error', {
+                            type: 'error'
+                        });
+                    }
+                }).catch(error => {
+                    if (error.response) {
+                        this.$alert('Responce code: ' + error.response.status, 'Error', {
+                            type: 'error'
+                        })
+                    }
+                })
             }
         }
     }

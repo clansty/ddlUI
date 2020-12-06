@@ -10,10 +10,10 @@
 </template>
 <script>
     export default {
-        data() {
-            return {
-                activeIndex: this.$route.name,
-            };
+        computed: {
+            activeIndex() {
+                return this.$route.name
+            }
         },
         methods: {
             handleSelect(key, keyPath) {
