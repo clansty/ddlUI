@@ -4,6 +4,8 @@
 
 服务器维护一个公共的任务池以及按用户 ID 区分的完成状态
 
+![screenshot](https://cdn.lwqwq.com/pic/7103b9a335b4d7ac78543cdc5ff248e.jpg)
+
 ## Todos
 
 - [ ] Show tasks on calendar view
