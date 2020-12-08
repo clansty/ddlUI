@@ -1,7 +1,7 @@
 <template>
     <div>
         <TaskEntry
-            v-for="task in sortTasks"
+            v-for="task in tasks"
             :key="task.id"
             :name="task.name"
             :due="task.due"
@@ -48,18 +48,6 @@
                 }
             };
         },
-        computed: {
-            sortTasks() {
-                this.tasks.forEach(i => {
-                    if (i.status && i.status[window.uid]) {
-                        i.done = true
-                    }
-                });
-                this.tasks.sort(compareByDate)
-                this.tasks.sort(compareByDone)
-                return this.tasks
-            }
-        },
         methods: {
             openDrawer() {
                 this.add.opened = true
@@ -68,6 +56,8 @@
                 this.axios.get("/api/all")
                     .then((response) => {
                         this.tasks = response.data;
+                        this.tasks.sort(compareByDate)
+                        this.tasks.sort(compareByDone)
                     }).catch(error => {
                         if (error.response && error.response.status == 401) {
                             this.$router.push({ name: "unauthorized" });
